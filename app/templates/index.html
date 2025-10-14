@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CrowdSec Web UI</title>
+    <script>
+        async function deleteDecision(ip) {
+            const response = await fetch(`/api/decisions/${ip}`, { method: 'DELETE' });
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert("Failed to delete decision");
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>CrowdSec Decisions</h1>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>IP</th>
+            <th>Scope</th>
+            <th>Type</th>
+            <th>Expiration</th>
+            <th>Source</th>
+            <th>Scenario</th>
+            <th>Actions</th>
+        </tr>
+        {% for d in decisions %}
+        <tr>
+            <td>{{ d.value }}</td>
+            <td>{{ d.scope }}</td>
+            <td>{{ d.type }}</td>
+            <td>{{ d.duration }}</td>
+            <td>{{ d.origin }}</td>
+            <td>{{ d.scenario }}</td>
+            <td><button onclick="deleteDecision('{{ d.value }}')">Delete</button></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>
