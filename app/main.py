@@ -17,5 +17,5 @@ templates = Jinja2Templates(directory="app/templates")
 async def index(request: Request):
     decisions = await list_decisions()
     return templates.TemplateResponse(
-        "index.html", {"request": request, "decisions": decisions}
+        request, "index.html", {"decisions": decisions}
     )

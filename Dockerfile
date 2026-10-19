@@ -17,11 +17,14 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
+# Pull Debian security fixes the base image has not picked up yet.
+RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
+
 # Copy installed packages
 COPY --from=builder /install /usr/local
 
 # Copy app source
-COPY . .
+COPY app ./app
 
 # Create non-root user
 RUN useradd -m fastapiuser && chown -R fastapiuser /app
